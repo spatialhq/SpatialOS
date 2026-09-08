@@ -19,9 +19,11 @@ stage on top.
 [Web UI](docs/webapp.md) ·
 [Docker](docs/docker.md)
 
+</div>
+
 ---
 
-### Overview
+## 1. Overview
 
 `spatial-os` is the backend half of the [SpatialOS](https://home-ashen-one.vercel.app/#top)
 platform — a crowdsourced initiative to turn everyday smartphones into
@@ -39,7 +41,7 @@ into something usable: **PLY / PCD**, **ROS bag**, **COLMAP sparse + dense**
 See the [design doc](../2026-05-28-spatialos-lidar-data-collection-design.pdf)
 for the full platform vision this project is a part of.
 
-### Pipeline
+## 2. Pipeline
 
 ```mermaid
 flowchart TD
@@ -54,14 +56,12 @@ flowchart TD
     style H fill:#fdebd0,stroke:#e67e22
 ```
 
-<sub>See <a href="docs/architecture.md">docs/architecture.md</a> for the full, module-level diagram.</sub>
+See [docs/architecture.md](docs/architecture.md) for the full, module-level diagram.
 
-### Quick start
+## 3. Quick start
 
 See [docs/getting-started.md](docs/getting-started.md) for the full tutorial.
 To capture your own raw data first, see [docs/data-capture.md](docs/data-capture.md).
-
-</div>
 
 ```bash
 pip install -e .
@@ -84,9 +84,7 @@ docker build -f Dockerfile.app -t spatial-os-app .
 docker run --rm -p 7860:7860 spatial-os-app
 ```
 
-<div align="center">
-
-### AI in the pipeline
+## 4. AI in the pipeline
 
 The reconstruction pipeline itself (Open3D TSDF fusion, outlier removal,
 voxel downsampling) is classical geometry processing — deterministic and
@@ -115,13 +113,11 @@ design writeup, including why mesh completion is classical (Poisson) rather
 than a learned model today, and where a native 3D model could be swapped in
 later behind the existing `Segmenter` interface.
 
-### Real-world use cases
+## 5. Real-world use cases
 
 Because the same crowdsourced scan can be exported into multiple standard
 formats, `spatial-os` output is reusable across quite different downstream
 applications.
-
-</div>
 
 **Robotics & embodied AI training data.** The ROS bag export
 (`sensor_msgs/PointCloud2` + `nav_msgs/Path`) plugs directly into existing
@@ -166,9 +162,7 @@ datasets (ScanNet, Matterport3D, Replica) are small, curated, and expensive
 to extend, whereas a phone-based, quality-scored, crowdsourced pipeline can
 scale with contributor count rather than dedicated capture budget.
 
-<div align="center">
-
-### Example: real LiDAR sample scan
+## 6. Example: real LiDAR sample scan
 
 Processed with `spatial-os process` (+ `spatial-os refine`) from a real "3D
 Scanner App" export (`chair_scan`, from
@@ -177,9 +171,7 @@ then visualized via `spatial-os ui`:
 
 <img src="docs/assets/chair_scan_result.png" alt="Reconstructed chair_scan point cloud in the spatial-os web UI" width="520">
 
-### Development
-
-</div>
+## 7. Development
 
 ```bash
 pip install -e ".[dev]"
@@ -190,9 +182,7 @@ Tests run entirely against a synthetic fixture (no network, no COLMAP
 required). See [docs/quality-scoring.md](docs/quality-scoring.md) and
 [docs/colmap-tradeoffs.md](docs/colmap-tradeoffs.md) for design tradeoffs.
 
-<div align="center">
-
-### Documentation
+## 8. Documentation
 
 | Doc | Covers |
 |---|---|
@@ -204,5 +194,3 @@ required). See [docs/quality-scoring.md](docs/quality-scoring.md) and
 | [docs/docker.md](docs/docker.md) | Docker images & running tests in-container |
 | [docs/quality-scoring.md](docs/quality-scoring.md) | Quality score components, what's real vs. estimated |
 | [docs/colmap-tradeoffs.md](docs/colmap-tradeoffs.md) | Why COLMAP is optional/Docker-only |
-
-</div>
