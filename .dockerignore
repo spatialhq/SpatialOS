@@ -1,0 +1,8 @@
+.git
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+data/
+tests/fixtures/sample_sessions/*
+!tests/fixtures/sample_sessions/README.md

@@ -1,0 +1,18 @@
+services:
+  spatial-os:
+    build: .
+    image: spatial-os
+    volumes:
+      - ./data:/data
+    entrypoint: ["spatial-os"]
+    command: ["--help"]
+
+  spatial-os-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: spatial-os-app
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./data:/data

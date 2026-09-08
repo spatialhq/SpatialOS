@@ -1,0 +1,29 @@
+# Optional, heavier image with COLMAP prebuilt -- only needed for
+# `--backend colmap`. The default pipeline (Dockerfile, --backend open3d)
+# never needs this. See docs/colmap-tradeoffs.md.
+FROM colmap/colmap:latest AS colmap-base
+
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 libgomp1 libglib2.0-0 \
+    libboost-program-options1.74.0 libboost-filesystem1.74.0 libboost-graph1.74.0 \
+    libceres3t64 libfreeimage3 libmetis-dev \
+    && rm -rf /var/lib/apt/lists/* || true
+
+COPY --from=colmap-base /usr/local/bin/colmap /usr/local/bin/colmap
+
+WORKDIR /app
+
+COPY pyproject.toml README.md /app/
+RUN mkdir -p src/spatial_os && touch src/spatial_os/__init__.py \
+    && pip install --no-cache-dir -e ".[dev]" \
+    && rm -rf src
+
+COPY src /app/src
+COPY tests /app/tests
+COPY scripts /app/scripts
+COPY docs /app/docs
+
+ENTRYPOINT ["spatial-os"]
+CMD ["--help"]

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "spatial-os"
+version = "0.1.0"
+description = "Backend processing pipeline for raw smartphone LiDAR point cloud sessions"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "SpatialOS" }]
+dependencies = [
+    "open3d>=0.18",
+    "numpy",
+    "opencv-python-headless",
+    "rosbags",
+    "typer>=0.12",
+    "rich",
+    "pydantic>=2",
+    "pillow",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff"]
+ai = ["torch", "torchvision", "transformers"]
+app = ["gradio"]
+
+[project.scripts]
+spatial-os = "spatial_os.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spatial_os"]
+
+[tool.pytest.ini_options]
+markers = [
+    "colmap: requires the colmap binary on PATH",
+    "realdata: requires downloaded real sample data",
+]
